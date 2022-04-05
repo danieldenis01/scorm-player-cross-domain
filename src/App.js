@@ -1,24 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import 'scorm-again';
+
+const settings = {}
 
 function App() {
+  const scormRootFile = document.body.getAttribute('data-scorm-root')
+  // eslint-disable-next-line no-undef
+  window.API = new Scorm12API(settings)
+
+  window.API.on("LMSInitialize", () => {
+    const params = { type: "LMSInitialize" }
+    window.top.postMessage(params, '*')
+  })
+
+  window.API.on("LMSSetValue.cmi.*", (CMIElement, value) => {
+    const params = { type: "LMSSetValue.cmi.*", payload: [CMIElement, value] }
+    window.top.postMessage(params, '*')
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <iframe className="eic-scorm-frame" src={ scormRootFile } title="Escola IC"></iframe>
   );
 }
 
