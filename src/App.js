@@ -1,4 +1,5 @@
 import React from 'react';
+import ClipLoader from 'react-spinners/ClipLoader'
 import './App.css';
 import 'scorm-again';
 
@@ -8,6 +9,7 @@ class App extends React.Component {
 
     this.state = {
       scormRootFile: document.body.getAttribute('data-scorm-root'),
+      spinnerColor: '#333333',
       isReady: false
     }
 
@@ -19,7 +21,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isReady, scormRootFile } = this.state
+    const { isReady, scormRootFile, spinnerColor } = this.state
 
     return (
       <div className="app">
@@ -27,7 +29,9 @@ class App extends React.Component {
           if (isReady) {
             return <iframe className = "eic-scorm-frame" src = { scormRootFile } title="Scorm Content"></iframe>
           } else {
-            return <h1>Teste</h1>
+            return <div className= "spinner" >
+              <ClipLoader color={ spinnerColor } loading={ true } size={ 45 } />
+            </div>
           }
         })()}
       </div>
