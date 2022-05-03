@@ -42,7 +42,8 @@ class App extends React.Component {
     if (this.state.isReady) return
 
     // eslint-disable-next-line no-undef
-    window.API = new Scorm12API(settings)
+    window.API = new Scorm12API({ logLevel: 5, selfReportSessionTime: true })
+    window.API.loadFromJSON(settings)
 
     this.setState({ isReady: true })
 
